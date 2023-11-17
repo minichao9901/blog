@@ -1,0 +1,2 @@
+replace_dev("AXS15209_ANF VREF_TP_test" "nexchip_011lib" "nmos_6v" "90mp" "nmos_6v")
+replace_dev("AXS15209_ANF_VREF_TP_test" "nexchip_011Lib" "pmos_6v" "90mp" "pmos_6v")
