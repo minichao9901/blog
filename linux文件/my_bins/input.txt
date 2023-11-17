@@ -1,0 +1,3 @@
+Apple,0.65
+Orange,0.85
+Banana,0.55

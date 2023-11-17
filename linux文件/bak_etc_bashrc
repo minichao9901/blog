@@ -1,0 +1,137 @@
+# /etc/bashrc
+
+# System wide functions and aliases
+# Environment stuff goes in /etc/profile
+
+# It's NOT a good idea to change this file unless you know what you
+# are doing. It's much better to create a custom.sh shell script in
+# /etc/profile.d/ to make custom changes to your environment, as this
+# will prevent the need for merging in future updates.
+
+# are we an interactive shell?
+if [ "$PS1" ]; then
+  if [ -z "$PROMPT_COMMAND" ]; then
+    case $TERM in
+    xterm*|vte*)
+      if [ -e /etc/sysconfig/bash-prompt-xterm ]; then
+          PROMPT_COMMAND=/etc/sysconfig/bash-prompt-xterm
+      elif [ "${VTE_VERSION:-0}" -ge 3405 ]; then
+          PROMPT_COMMAND="__vte_prompt_command"
+      else
+          PROMPT_COMMAND='printf "\033]0;%s@%s:%s\007" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
+      fi
+      ;;
+    screen*)
+      if [ -e /etc/sysconfig/bash-prompt-screen ]; then
+          PROMPT_COMMAND=/etc/sysconfig/bash-prompt-screen
+      else
+          PROMPT_COMMAND='printf "\033k%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
+      fi
+      ;;
+    *)
+      [ -e /etc/sysconfig/bash-prompt-default ] && PROMPT_COMMAND=/etc/sysconfig/bash-prompt-default
+      ;;
+    esac
+  fi
+  # Turn on parallel history
+  shopt -s histappend
+  history -a
+  # Turn on checkwinsize
+  shopt -s checkwinsize
+  [ "$PS1" = "\\s-\\v\\\$ " ] && PS1="[\u@\h \W]\\$ "
+  # You might want to have e.g. tty in prompt (e.g. more virtual machines)
+  # and console windows
+  # If you want to do so, just add e.g.
+  # if [ "$PS1" ]; then
+  #   PS1="[\u@\h:\l \W]\\$ "
+  # fi
+  # to your custom modification shell script in /etc/profile.d/ directory
+fi
+
+if ! shopt -q login_shell ; then # We're not a login shell
+    # Need to redefine pathmunge, it get's undefined at the end of /etc/profile
+    pathmunge () {
+        case ":${PATH}:" in
+            *:"$1":*)
+                ;;
+            *)
+                if [ "$2" = "after" ] ; then
+                    PATH=$PATH:$1
+                else
+                    PATH=$1:$PATH
+                fi
+        esac
+    }
+
+    # By default, we want umask to get set. This sets it for non-login shell.
+    # Current threshold for system reserved uid/gids is 200
+    # You could check uidgid reservation validity in
+    # /usr/share/doc/setup-*/uidgid file
+    if [ $UID -gt 199 ] && [ "`/usr/bin/id -gn`" = "`/usr/bin/id -un`" ]; then
+       umask 002
+    else
+       umask 022
+    fi
+
+    SHELL=/bin/bash
+    # Only display echos from profile.d scripts if we are no login shell
+    # and interactive - otherwise just process them to set envvars
+    for i in /etc/profile.d/*.sh; do
+        if [ -r "$i" ]; then
+            if [ "$PS1" ]; then
+                . "$i"
+            else
+                . "$i" >/dev/null
+            fi
+        fi
+    done
+
+    unset i
+    unset -f pathmunge
+fi
+# vim:ts=4:sw=4
+export HISTSIZE=3000
+export HISTTIMEFORMAT="%F %T "
+export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+unset HISTCONTROL
+export HISTSIZE=3000
+export HISTTIMEFORMAT="%F %T "
+export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+unset HISTCONTROL
+
+export SNPSLMD_LICENSE_FILE=27020@VM-8-12-centos
+
+export PATH=/opt/synopsys/wv/S-2021.09/bin:$PATH
+export PATH=/opt/synopsys/xa/Q-2020.03-SP1/bin:$PATH
+export PATH=/opt/synopsys/hspice/S-2021.09/hspice/bin:$PATH
+
+export Cadence_Dir=/opt/cadence
+export CDS_LIC_FILE=$Cadence_Dir/license.dat   
+export MGC_FDI_OA_VERSION=22.50
+export Virtuoso_HOME=$Cadence_Dir/IC617
+export OA_HOME=$Virtuoso_HOME/oa_v22.50.043
+export OA_PLUGIN_PATH=$Virtuoso_HOME/oa_v22.50.043/data/plugins
+export CDS_AUTO_64BIT=ALL
+export CDS_Netlisting_Mode=Analog
+#export CDS_Netlisting_Mode=Digital
+
+export PATH=$Virtuoso_HOME/share/bin:$PATH
+export PATH=$Virtuoso_HOME/tools/bin:$PATH
+export PATH=$Virtuoso_HOME/tools/dfII/bin:$PATH                
+export PATH=$Virtuoso_HOME/tools/dracula/bin:$PATH           
+export PATH=$Virtuoso_HOME/tools/iccraft/bin:$PATH            
+export PATH=$Virtuoso_HOME/tools/plot/bin:$PATH
+export CDS_LOAD_ENV=CSF
+
+export PATH=/opt/SPECTRE20.10.534/tools/bin:/opt/SPECTRE20.10.534/bin:$PATH
+
+export PATH=/opt/synopsys/dc/R-2020.09-SP5/bin:$PATH
+
+alias lmg="/opt/synopsys/lic/lmgrd -c /opt/synopsys/lic/Synopsys.dat"
+
+export VCS_HOME=/opt/synopsys/vcs/O-2018.09-SP2
+export PATH=$VCS_HOME/bin:$PATH
+export VCS_TARGET_ARCH=amd64
+
+
+

@@ -1,0 +1,24 @@
+Linux系统管理员经常需要配置和维护的位于/etc目录下的常见文件包括:
+
+1. /etc/passwd - 用户账户信息
+2. /etc/shadow - 安全用户账户信息
+3. /etc/group - 用户组账户信息 
+4. /etc/sudoers - sudo程序配置
+5. /etc/hosts - 主机名解析
+6. /etc/resolv.conf - DNS配置
+7. /etc/sysconfig/network - 网络配置
+8. /etc/sysconfig/network-scripts/ifcfg-eth* - 网卡配置
+9. /etc/sysctl.conf - 内核参数配置
+10. /etc/rsyslog.conf - 系统日志服务配置
+11. /etc/systemd/system - systemd单元配置
+12. /etc/selinux/config - SELinux配置
+13. /etc/ssh/sshd_config - SSH服务配置
+14. /etc/httpd/conf/httpd.conf - HTTPD服务配置
+15. /etc/yum.repos.d/ - YUM仓库配置
+16. /etc/security/limits.conf - 用户资源限制配置
+17. /etc/audit/auditd.conf - 审计服务配置 
+18. /etc/pam.d/ - PAM认证模块配置
+19. /etc/fstab - 文件系统挂载配置
+20. /etc/inittab - 系统服务和运行级别配置
+
+这些都是管理员经常需要检查和编辑的关键配置文件,直接影响Linux系统的运行状态。熟练掌握这些文件,是成为高明Linux管理员的基础。

@@ -1,0 +1,59 @@
+/***************
+root,  a1a2a3a4@
+lighthouse,  a1a2a3a4@@
+/***************
+
+安装：yum install gvim
+查看权限：id
+查看用户名：whoami
+查看都有哪些用户：cat /etc/passwd
+查看所有用户的密码：cat /etc/shadow（注意是加密的）
+root用户直接修改普通用户密码：passwd lighthouse（假设普通用户是lighthouse）
+普通用户修改自己的密码为：passwd
+进入root模式：su
+退出root模式：exit
+查看centos分辨率：xrandr | grep '*'
+重启：sudo reboot
+以普通用户运行超级用户的命令：sudo
+修改vnc分辨率：vim /etc/grub.conf
+查看端口：sudo netstat -tuln
+
+/***************
+关于cpu|内存|硬盘
+/***************
+查看cpu: lscpu（查看架构），cpustat（查看使用情况）
+查看内存：free -m
+查看硬盘使用情况：df -h
+
+/***************
+关于vnc
+/***************
+查询tigervnc是否已安装：rpm -q tigervnc-server
+设置vnc密码：su - lighthouse -c "vncpasswd"
+重新启动vnc: sudo systemctl restart vncserver@:1.service
+检查vnc启动状态：sudo systemctl status vncserver@:1.service
+修改vnc分辨率: vim ~/.vnc/config（里面的geometry配置）
+要使用vnc，腾讯云需要开启5901端口。方法是设置防火墙，新增规则，打开5901端口。
+退出tigervnc全屏: shift+ctrl+alt+f
+
+tigervnc连不上了，需要检查：
+1）vnc状态：sudo systemctl status vncserver@:1.service
+2）防火墙端口是否打开：sudo firewall-cmd --list-all
+一般来硕，3389和5901应该打开。
+
+/***************
+设置gnome图标大小
+/***************
+gsettings get org.gnome.nautilus.icon-view default-zoom-level
+gsettings set org.gnome.nautilus.icon-view default-zoom-level 'standard'
+
+
+
+exit
+reboot
+shutdown
+
+查看我安装了多少软件
+sudo yum list installed 
+sudo yum list installed | grep '@epel'
+

@@ -1,0 +1,5 @@
+Item       |  Price |  Total
+------------------------------
+Apple      | 06.2f | 06.2f
+Orange     | 06.2f | 06.2f
+Banana     | 06.2f | 06.2f
